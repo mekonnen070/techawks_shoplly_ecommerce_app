@@ -2,12 +2,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:sizer/sizer.dart';
+import 'package:techawks_shoplly_ecommerce_app/Schemas/get_task_schema.dart';
 import 'package:techawks_shoplly_ecommerce_app/constants/constants.dart';
 import 'package:techawks_shoplly_ecommerce_app/helper/customAppBar.dart';
 import 'package:techawks_shoplly_ecommerce_app/helper/default_button.dart';
 import 'package:techawks_shoplly_ecommerce_app/model/products.dart';
 import 'package:techawks_shoplly_ecommerce_app/screens/cart/components/ExpansionTileCard.dart';
+import 'package:techawks_shoplly_ecommerce_app/screens/cart/components/cartCard.dart';
 import 'package:techawks_shoplly_ecommerce_app/screens/home/components/search_field.dart';
 import 'package:techawks_shoplly_ecommerce_app/screens/orderProccesdingPage.dart';
 import 'package:techawks_shoplly_ecommerce_app/screens/thanksForShoppingPage.dart';
@@ -33,106 +36,123 @@ class _CheckoutRoomCartState extends State<CheckoutRoomCart> {
 
   final _formKey = GlobalKey<FormState>();
 
-  double totalPrice = 0;
-
   bool checkedValue = false;
 
-  @override
-  void initState() {
-    super.initState();
-    demoProducts.map((prodcut) => totalPrice += prodcut.price).toList();
-  }
+  QueryResult? cresult;
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        appBar: CustomAppBar(
-          title: 'Cart',
-        ),
-        body: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              CustomExpansionTile(),
-              const Divider(),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Contact Information',
-                      style: kBoldTextStyle.copyWith(fontSize: 16),
-                    ),
-                    ContactInfoForm(
-                      hintText: 'Email or Phone Number',
-                      controller: emailController,
-                    ),
-                  ],
+        child: Scaffold(
+            appBar: CustomAppBar(
+              title: 'Cart',
+            ),
+            body: Query(
+                options: QueryOptions(
+                  document: gql(GetSchema.getProductsQuery),
                 ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Shipping Address',
-                      style: kBoldTextStyle.copyWith(fontSize: 16),
+                builder: (QueryResult result,
+                    {VoidCallback? refetch, FetchMore? fetchMore}) {
+                  if (result.hasException) {
+                    return Text(result.exception.toString());
+                  }
+
+                  if (result.isLoading) {
+                    return const Center(
+                      child: CircularProgressIndicator.adaptive(),
+                    );
+                  }
+
+                  List? categories = result.data?['categories'];
+
+                  if (categories == null) {
+                    return const Text('No Order Summary');
+                  }
+                  cresult = result;
+
+                  return Form(
+                    key: _formKey,
+                    child: ListView(
+                      children: [
+                        CustomExpansionTile(),
+                        const Divider(),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0, vertical: 4.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Contact Information',
+                                style: kBoldTextStyle.copyWith(fontSize: 16),
+                              ),
+                              ContactInfoForm(
+                                hintText: 'Email or Phone Number',
+                                controller: emailController,
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0, vertical: 8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Shipping Address',
+                                style: kBoldTextStyle.copyWith(fontSize: 16),
+                              ),
+                              ContactInfoForm(
+                                hintText: 'First Name',
+                                controller: fnameController,
+                              ),
+                              ContactInfoForm(
+                                hintText: 'Last Name',
+                                controller: lnameController,
+                              ),
+                              ContactInfoForm(
+                                hintText: 'Address Line 1',
+                                controller: addLine1Controller,
+                              ),
+                              ContactInfoForm(
+                                hintText: 'Address Line 2',
+                                controller: addLine2Controller,
+                              ),
+                              ContactInfoForm(
+                                hintText: 'City/Town',
+                                controller: cityController,
+                              ),
+                              ContactInfoForm(
+                                hintText: 'Country',
+                                controller: countryController,
+                              ),
+                              ContactInfoForm(
+                                hintText: 'Postal/Zip',
+                                controller: postalZipController,
+                              ),
+                              customCheckBox(),
+                              Center(
+                                child: DefaultButton(
+                                  isAdded: false,
+                                  text: 'COMPLETE ORDER',
+                                  onPressed: () {
+                                    if (_formKey.currentState!.validate()) {
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (BuildContext context) =>
+                                                  const ThanksForShoppingPage()));
+                                    }
+                                  },
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                    ContactInfoForm(
-                      hintText: 'First Name',
-                      controller: fnameController,
-                    ),
-                    ContactInfoForm(
-                      hintText: 'Last Name',
-                      controller: lnameController,
-                    ),
-                    ContactInfoForm(
-                      hintText: 'Address Line 1',
-                      controller: addLine1Controller,
-                    ),
-                    ContactInfoForm(
-                      hintText: 'Address Line 2',
-                      controller: addLine2Controller,
-                    ),
-                    ContactInfoForm(
-                      hintText: 'City/Town',
-                      controller: cityController,
-                    ),
-                    ContactInfoForm(
-                      hintText: 'Country',
-                      controller: countryController,
-                    ),
-                    ContactInfoForm(
-                      hintText: 'Postal/Zip',
-                      controller: postalZipController,
-                    ),
-                    customCheckBox(),
-                    Center(
-                      child: DefaultButton(
-                        isAdded: false,
-                        text: 'COMPLETE ORDER',
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    const ThanksForShoppingPage()));
-                          }
-                        },
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+                  );
+                })));
   }
 
   CheckboxListTile customCheckBox() {
@@ -155,46 +175,58 @@ class _CheckoutRoomCartState extends State<CheckoutRoomCart> {
 
   ExpansionTile CustomExpansionTile() {
     return ExpansionTile(
-      title: Row(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          isExpansionOpened
-              ? const Flexible(
-                  child: Text(
-                    'Show order summary',
-                    overflow: TextOverflow.ellipsis,
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            isExpansionOpened
+                ? const Flexible(
+                    child: Text(
+                      'Show order summary',
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  )
+                : const Flexible(
+                    child: Text(
+                      'Hide order summary',
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
-                )
-              : const Flexible(
-                  child: Text(
-                    'Hide order summary',
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-          if (!isExpansionOpened)
-            const Icon(
-              Icons.keyboard_arrow_down_outlined,
-            ),
-          if (isExpansionOpened) const Icon(Icons.keyboard_arrow_up_outlined)
-        ],
-      ),
-      leading: const Icon(Icons.shopping_cart),
-      trailing: Text(
-        '\$' + totalPrice.roundToDouble().toString(),
-        style: const TextStyle(
-          fontWeight: FontWeight.bold,
+            if (!isExpansionOpened)
+              const Icon(
+                Icons.keyboard_arrow_down_outlined,
+              ),
+            if (isExpansionOpened) const Icon(Icons.keyboard_arrow_up_outlined)
+          ],
         ),
-      ),
-      onExpansionChanged: (value) {
-        setState(() {
-          isExpansionOpened = !isExpansionOpened;
-        });
-      },
-      children: demoProducts.map((product) {
-        return ExpansionChildrenCard(product: product);
-      }).toList(),
-    );
+        leading: const Icon(Icons.shopping_cart),
+        trailing: Text(
+          '\$' + 4527.00.roundToDouble().toString(),
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        onExpansionChanged: (value) {
+          setState(() {
+            isExpansionOpened = !isExpansionOpened;
+          });
+        },
+        children: [
+          ListView.builder(
+            shrinkWrap: true,
+            controller: ScrollController(),
+            itemCount: 5,
+            itemBuilder: (context, index) {
+              final product =
+                  cresult!.data?['categories'][index]['products'][index];
+
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.00),
+                child: ExpansionChildrenCard(product: product, index: index),
+              );
+            },
+          ),
+        ]);
   }
 }
 

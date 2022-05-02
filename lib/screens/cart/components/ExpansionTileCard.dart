@@ -5,10 +5,12 @@ import 'package:techawks_shoplly_ecommerce_app/model/products.dart';
 import '../../../constants/constants.dart';
 
 class ExpansionChildrenCard extends StatelessWidget {
-  const ExpansionChildrenCard({Key? key, required this.product})
+  const ExpansionChildrenCard(
+      {Key? key, required this.product, required this.index})
       : super(key: key);
 
-  final Product product;
+  final dynamic product;
+  final int index;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,7 @@ class ExpansionChildrenCard extends StatelessWidget {
                 color: const Color(0xFFF5F6F9),
                 borderRadius: BorderRadius.circular(15),
               ),
-              child: Image.asset(product.images[0]),
+              child: Image.network(product['images'][index]['url']),
             ),
           ),
           const SizedBox(width: 10),
@@ -39,13 +41,13 @@ class ExpansionChildrenCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        product.title,
+                        product['name'],
                         overflow: TextOverflow.ellipsis,
                         softWrap: false,
                         style: kBoldTextStyle,
                       ),
                       Text(
-                        product.description,
+                        product['description'],
                         maxLines: 2,
                         softWrap: false,
                         overflow: TextOverflow.ellipsis,
@@ -57,7 +59,7 @@ class ExpansionChildrenCard extends StatelessWidget {
                 kHorizontalSpacer,
                 kHorizontalSpacer,
                 Text(
-                  '\$' + product.price.toString(),
+                  '\$' + product['price'].toString(),
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                   ),

@@ -32,8 +32,6 @@ class _ThanksForShoppingPageState extends State<ThanksForShoppingPage> {
   @override
   Widget build(BuildContext context) {
     double totalPrice = 0;
-    demoProducts.map((prodcut) => totalPrice += prodcut.price).toList();
-
     totalPrice = double.parse(totalPrice.toStringAsFixed(2));
     return SafeArea(
       child: Scaffold(
