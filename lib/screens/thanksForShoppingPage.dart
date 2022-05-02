@@ -149,9 +149,9 @@ class _ThanksForShoppingPageState extends State<ThanksForShoppingPage> {
                       const SizedBox(
                         height: 8,
                       ),
-                      OrderSummary(
+                      const OrderSummary(
                         leadingText: 'TOTAL',
-                        trailingText: '\$ $totalPrice',
+                        trailingText: '\$ 4525.53',
                       ),
                       const SizedBox(
                         height: 8,
