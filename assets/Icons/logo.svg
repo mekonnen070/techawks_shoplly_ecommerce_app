@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="132" height="33.045" viewBox="0 0 132 33.045">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.057" y1="-0.095" x2="0.918" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#d629ff"/>
+      <stop offset="1" stop-color="#00cbff"/>
+    </linearGradient>
+  </defs>
+  <g id="Group_1" data-name="Group 1" transform="translate(-140 -39)">
+    <path id="temp_formal-459D594D59_temp" d="M34.785,3H16.576A16.533,16.533,0,0,0,0,19.521,16.232,16.232,0,0,0,.372,23c0,.013,0,.027,0,.035a16.5,16.5,0,0,0,5.091,8.747.2.2,0,0,1,.036.031A16.55,16.55,0,0,0,29.131,8.723ZM6.568,19.178v-.04a10.017,10.017,0,0,1,13.064-9.126l.013,0a10.031,10.031,0,0,1,6.406,6.264.014.014,0,0,0,.005.009V16.3s0,.009,0,.013a.121.121,0,0,0,.009.036,9.827,9.827,0,0,1,.523,3.174A10.028,10.028,0,0,1,12.178,28.5l-.014-.009a9.987,9.987,0,0,1-5.606-8.965C6.559,19.409,6.559,19.29,6.568,19.178Z" transform="translate(140 36)" fill="url(#linear-gradient)"/>
+    <text id="Shoplly" transform="translate(190 65)" font-size="24" font-family="Gilroy-Bold, Gilroy" font-weight="700" fill="#000000"><tspan x="0" y="0">Shoplly</tspan></text>
+  </g>
+</svg>

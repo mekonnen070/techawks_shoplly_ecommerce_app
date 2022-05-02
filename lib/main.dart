@@ -1,7 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:techawks_shoplly_ecommerce_app/constants/constants.dart';
+import 'package:techawks_shoplly_ecommerce_app/provider/getProductProvider.dart';
+import 'package:techawks_shoplly_ecommerce_app/screens/home/home.dart';
 
 void main() {
-  runApp(const MyApp());
+  final HttpLink httpLink = HttpLink('https://shoplly-api.techawks.io/graphql');
+
+  ValueNotifier<GraphQLClient> client = ValueNotifier(
+    GraphQLClient(
+      link: httpLink,
+      cache: GraphQLCache(store: InMemoryStore()),
+    ),
+  );
+  var app = GraphQLProvider(
+    client: client,
+    child: MyApp(),
+  );
+
+  runApp(app);
 }
 
 class MyApp extends StatelessWidget {
@@ -9,44 +28,29 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: const Center(
-        child: Text('this is the '),
-      ),
+    return Sizer(
+      builder: (BuildContext context, Orientation orientation,
+          DeviceType deviceType) {
+        return MultiProvider(
+          providers: [
+            // ChangeNotifierProvider(create: (_) => AddTaskProvider()),
+            ChangeNotifierProvider(create: (_) => GetProductProvider()),
+            // ChangeNotifierProvider(create: (_) => DeleteTaskProvider())
+          ],
+          child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+              appBarTheme: AppBarTheme(
+                  backgroundColor: Colors.white.withOpacity(0.9),
+                  elevation: 0.5),
+              primarySwatch: Colors.blue,
+              backgroundColor: bgColor,
+              fontFamily: 'SegUIVar',
+            ),
+            home: const MyHomePage(),
+          ),
+        );
+      },
     );
   }
 }
