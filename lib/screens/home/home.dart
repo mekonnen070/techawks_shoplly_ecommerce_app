@@ -3,11 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:provider/provider.dart';
 import 'package:techawks_shoplly_ecommerce_app/Schemas/get_task_schema.dart';
 import 'package:techawks_shoplly_ecommerce_app/constants/constants.dart';
-import 'package:techawks_shoplly_ecommerce_app/model/products.dart';
-import 'package:techawks_shoplly_ecommerce_app/provider/getProductProvider.dart';
 import 'package:techawks_shoplly_ecommerce_app/screens/cart/ContinueShoppingHome.dart';
 import 'package:techawks_shoplly_ecommerce_app/screens/home/components/categoryList.dart';
 import 'package:techawks_shoplly_ecommerce_app/screens/home/components/icon_btn_with_counter.dart';

@@ -17,7 +17,7 @@ void main() {
   );
   var app = GraphQLProvider(
     client: client,
-    child: MyApp(),
+    child: const MyApp(),
   );
 
   runApp(app);
@@ -33,10 +33,8 @@ class MyApp extends StatelessWidget {
           DeviceType deviceType) {
         return MultiProvider(
           providers: [
-            // ChangeNotifierProvider(create: (_) => AddTaskProvider()),
-            ChangeNotifierProvider(create: (_) => GetProductProvider()),
-            // ChangeNotifierProvider(create: (_) => DeleteTaskProvider())
-          ],
+                 ChangeNotifierProvider(create: (_) => GetProductProvider()),
+                 ],
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
             theme: ThemeData(

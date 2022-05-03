@@ -1,10 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:techawks_shoplly_ecommerce_app/constants/constants.dart';
-import 'package:techawks_shoplly_ecommerce_app/model/products.dart';
-import 'package:techawks_shoplly_ecommerce_app/screens/cart/components/ExpansionTileCard.dart';
 import 'package:techawks_shoplly_ecommerce_app/screens/home/home.dart';
 import 'package:techawks_shoplly_ecommerce_app/screens/orderProccesdingPage.dart';
+
+class OrderSummary extends StatelessWidget {
+  final String leadingText;
+
+  final String trailingText;
+  const OrderSummary({
+    Key? key,
+    required this.leadingText,
+    required this.trailingText,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          leadingText,
+          style: kBoldTextStyle.copyWith(fontSize: 16, color: Colors.grey),
+        ),
+        const SizedBox(
+          width: 30,
+        ),
+        Flexible(
+          child: Text(
+            trailingText,
+            maxLines: 5,
+            overflow: TextOverflow.visible,
+            style: kBoldTextStyle.copyWith(fontSize: 16),
+          ),
+        )
+      ],
+    );
+  }
+}
 
 class ThanksForShoppingPage extends StatefulWidget {
   const ThanksForShoppingPage({Key? key}) : super(key: key);
@@ -15,19 +48,6 @@ class ThanksForShoppingPage extends StatefulWidget {
 
 class _ThanksForShoppingPageState extends State<ThanksForShoppingPage> {
   bool waitingIsOver = false;
-
-  Future waitAMinute() async {
-    await Future.delayed(const Duration(seconds: 2));
-    setState(() {
-      waitingIsOver = true;
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    waitAMinute();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -164,39 +184,17 @@ class _ThanksForShoppingPageState extends State<ThanksForShoppingPage> {
       ),
     );
   }
-}
-
-class OrderSummary extends StatelessWidget {
-  const OrderSummary({
-    Key? key,
-    required this.leadingText,
-    required this.trailingText,
-  }) : super(key: key);
-
-  final String leadingText;
-  final String trailingText;
 
   @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          leadingText,
-          style: kBoldTextStyle.copyWith(fontSize: 16, color: Colors.grey),
-        ),
-        const SizedBox(
-          width: 30,
-        ),
-        Flexible(
-          child: Text(
-            trailingText,
-            maxLines: 5,
-            overflow: TextOverflow.visible,
-            style: kBoldTextStyle.copyWith(fontSize: 16),
-          ),
-        )
-      ],
-    );
+  void initState() {
+    super.initState();
+    waitAMinute();
+  }
+
+  Future waitAMinute() async {
+    await Future.delayed(const Duration(seconds: 2));
+    setState(() {
+      waitingIsOver = true;
+    });
   }
 }
