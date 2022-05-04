@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:shoplly/model/sub_category.dart';
+import 'package:techawks_shoplly_ecommerce_app/model/sub_category.dart';
 
 CategoriesResult categoriesResultFromJson(String str) =>
     CategoriesResult.fromJson(json.decode(str));

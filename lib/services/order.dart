@@ -1,15 +1,15 @@
 import 'dart:developer';
 
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:shoplly/client.dart';
-import 'package:shoplly/graphql/create_order.dart';
-import 'package:shoplly/model/order.dart';
+import 'package:techawks_shoplly_ecommerce_app/Schemas/GetSchema.dart';
+import 'package:techawks_shoplly_ecommerce_app/Utils/client.dart';
+import 'package:techawks_shoplly_ecommerce_app/model/order.dart';
 
 class OrderService {
   static Future<CreatedOrder?> createOrder(OrderInput orderInput) async {
     try {
       MutationOptions options = MutationOptions(
-          document: gql(createOrderDocument),
+          document: gql(GetSchema.createOrderQuery),
           variables: {"input": orderInput.toJson()});
 
       QueryResult response = await client.value.mutate(options);

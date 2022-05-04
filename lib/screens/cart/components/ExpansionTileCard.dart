@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-import 'package:techawks_shoplly_ecommerce_app/model/products.dart';
 
 import '../../../constants/constants.dart';
 

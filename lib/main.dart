@@ -2,19 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:techawks_shoplly_ecommerce_app/Utils/client.dart';
 import 'package:techawks_shoplly_ecommerce_app/constants/constants.dart';
-import 'package:techawks_shoplly_ecommerce_app/provider/getProductProvider.dart';
+import 'package:techawks_shoplly_ecommerce_app/provider/CartProvider.dart';
 import 'package:techawks_shoplly_ecommerce_app/screens/home/home.dart';
 
 void main() {
-  final HttpLink httpLink = HttpLink('https://shoplly-api.techawks.io/graphql');
-
-  ValueNotifier<GraphQLClient> client = ValueNotifier(
-    GraphQLClient(
-      link: httpLink,
-      cache: GraphQLCache(store: InMemoryStore()),
-    ),
-  );
   var app = GraphQLProvider(
     client: client,
     child: const MyApp(),
@@ -33,8 +26,8 @@ class MyApp extends StatelessWidget {
           DeviceType deviceType) {
         return MultiProvider(
           providers: [
-                 ChangeNotifierProvider(create: (_) => GetProductProvider()),
-                 ],
+            ChangeNotifierProvider(create: (_) => CartProvider()),
+          ],
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
@@ -45,7 +38,7 @@ class MyApp extends StatelessWidget {
               backgroundColor: bgColor,
               fontFamily: 'SegUIVar',
             ),
-            home: const MyHomePage(),
+            home: const ProductTabHomePage(),
           ),
         );
       },

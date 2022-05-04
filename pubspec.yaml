@@ -35,8 +35,8 @@ dependencies:
   shimmer: ^2.0.0
   flutter_svg: ^1.0.3
   sizer: ^2.0.15
-  cached_network_image:
-  dio: ^4.0.6
+  cached_network_image: ^3.2.0
+  shared_preferences: ^2.0.13
 
 dev_dependencies:
   flutter_lints: ^1.0.0

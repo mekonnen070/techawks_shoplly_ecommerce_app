@@ -1,6 +1,8 @@
 import 'dart:collection';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
 import 'package:techawks_shoplly_ecommerce_app/model/product.dart';
 
 class CartItem {
@@ -19,45 +21,45 @@ class CartProvider extends ChangeNotifier {
 
   UnmodifiableListView<CartItem> get items => UnmodifiableListView(_items);
 
-  void add(Product item) {
+  void addNewItem(Product item) {
     _items
         .add(CartItem(productId: item.productId, product: item, itemCount: 1));
     notifyListeners();
   }
 
-  void addQuantity(Product item) {
+  void addNewQuantity(Product item) {
     List<CartItem> addCartQuantity = [];
-    for (CartItem c in items) {
-      if (c.productId == item.productId) {
+    for (CartItem cart in items) {
+      if (cart.productId == item.productId) {
         addCartQuantity.add(CartItem(
             productId: item.productId,
             product: item,
-            itemCount: c.itemCount + 1));
+            itemCount: cart.itemCount + 1));
       } else {
-        addCartQuantity.add(c);
+        addCartQuantity.add(cart);
       }
     }
     _items = addCartQuantity;
     notifyListeners();
   }
 
-  void minusQuantity(Product item) {
+  void deductAdddedQuantity(Product item) {
     List<CartItem> minusCartQuantity = [];
-    for (CartItem c in items) {
-      if (c.productId == item.productId) {
+    for (CartItem cart in items) {
+      if (cart.productId == item.productId) {
         minusCartQuantity.add(CartItem(
             productId: item.productId,
             product: item,
-            itemCount: c.itemCount - 1));
+            itemCount: cart.itemCount - 1));
       } else {
-        minusCartQuantity.add(c);
+        minusCartQuantity.add(cart);
       }
     }
     _items = minusCartQuantity;
     notifyListeners();
   }
 
-  void removeItem(Product item) {
+  void removeAnItem(Product item) {
     _items =
         _items.where((product) => product.productId != item.productId).toList();
     notifyListeners();

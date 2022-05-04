@@ -1,24 +1,17 @@
 class GetSchema {
-  static String getProductsQuery = '''
-query{
-  categories
-  {
+  static String getCategoryQuery = """
+ query{
+  categories {
     categoryId
     name
-    products{
-      name
-      price
-      description
+    subCategories{
       categoryId
-      productId
       subCategoryId
-      createdAt
-      images{
-        url
-      }
+      name
     }
   }
-}''';
+}
+""";
 
   static String productsQuery = """
      query products(\$categoryId: String!){
