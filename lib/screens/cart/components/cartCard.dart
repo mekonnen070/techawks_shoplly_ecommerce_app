@@ -91,7 +91,7 @@ class _ItemCardState extends State<CartCard> {
                       child: GestureDetector(
                           onTap: () => cartProvider
                               .removeAnItem(widget.selectedItem.product),
-                          child: SvgPicture.asset("assets/icons/remove.svg")),
+                          child: SvgPicture.asset("assets/Icons/remove.svg")),
                     )
                   ],
                 ),

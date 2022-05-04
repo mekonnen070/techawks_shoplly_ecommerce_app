@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:techawks_shoplly_ecommerce_app/model/order.dart';
@@ -34,14 +32,11 @@ class _OrderLoadingState extends State<OrderLoading> {
         zipCode: orderForm.zip,
         orderItems: orderItems));
     if (res != null) {
-      // CartProvider cartProvider = Provider.of<CartProvider>(context);
-      // List<CartItem> items = cartProvider.items;
       await Navigator.of(context)
           .push(MaterialPageRoute(builder: (BuildContext context) {
         return OrderCompleteScreen(
           orderNumber: res.orderNumber,
           deliveryDate: res.deliveryDate,
-          // items: items,
           shipingDetail:
               "${orderForm.firstName} ${orderForm.lastName} ${orderForm.city} ${orderForm.country} ",
         );
